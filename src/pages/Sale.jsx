@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Trash2, ShoppingCart, Plus, Search, XCircle, CheckCircle, Printer, Camera } from 'lucide-react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 
-const API = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://floor-do-kon.onrender.com';
+const API = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://magazin-backend.onrender.com';
 
 const Sale = () => {
     const [allProducts, setAllProducts] = useState([]);

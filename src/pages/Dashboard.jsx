@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+// Yangi backend havolasi o'rnatildi
 const API = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://floor-do-kon.onrender.com';
 
 const Dashboard = () => {
@@ -15,9 +16,15 @@ const Dashboard = () => {
         const fetchStats = async () => {
             try {
                 const res = await axios.get(`${API}/api/reports/dashboard`);
-                setStats(res.data);
+                // Agar kelgan ma'lumot bo'sh bo'lsa, state buzilmasligi uchun default qiymat berildi
+                setStats(res.data || {
+                    totals: { total_som: 0, total_usd: 0, total_quantity: 0 },
+                    today_sales: [],
+                    today_sum_som: 0,
+                    today_sum_usd: 0
+                });
             } catch (err) {
-                console.error("Dashboard yuklashda xatolik");
+                console.error("Dashboard yuklashda xatolik:", err);
             }
         };
         fetchStats();
@@ -58,16 +65,17 @@ const Dashboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {stats.today_sales.map(sale => (
-                            <tr key={sale.id}>
-                                <td>{new Date(sale.created_at).toLocaleTimeString('uz-UZ')}</td>
+                        {stats.today_sales?.map((sale, index) => (
+                            // Agar sale.id kelmay qolsa xato bermasligi uchun index qo'shib yuborildi
+                            <tr key={sale.id || index}>
+                                <td>{sale.created_at ? new Date(sale.created_at).toLocaleTimeString('uz-UZ') : '--:--'}</td>
                                 <td>{sale.product_name}</td>
                                 <td>{sale.product_code}</td>
                                 <td>{sale.quantity} / {sale.area} m²</td>
                                 <td>{fmtSom(sale.som)} / {fmtUsd(sale.usd)}</td>
                             </tr>
                         ))}
-                        {stats.today_sales.length === 0 && (
+                        {(!stats.today_sales || stats.today_sales.length === 0) && (
                             <tr><td colSpan="5" style={{textAlign: 'center'}}>Bugun sotuv yo'q</td></tr>
                         )}
                     </tbody>

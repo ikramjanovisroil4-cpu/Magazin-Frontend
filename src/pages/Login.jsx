@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// Yangi backend havolasi o'rnatildi
 const API = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://floor-do-kon.onrender.com';
 
 const Login = () => {
@@ -13,10 +14,19 @@ const Login = () => {
         e.preventDefault();
         try {
             const res = await axios.post(`${API}/api/auth/login`, { username, password });
-            localStorage.setItem('token', res.data.token);
-            navigate('/');
+            
+            // Token mavjudligini tekshirib keyin saqlash
+            if (res.data && res.data.token) {
+                localStorage.setItem('token', res.data.token);
+                navigate('/');
+            } else {
+                alert('Xatolik: Serverdan token kelmadi.');
+            }
         } catch (error) {
-            alert('Xato: Login yoki parol notogri');
+            console.error("Login error:", error);
+            // Agar backenddan aniq xabar kelsa o'shani, aks holda default xabarni chiqaradi
+            const errorMsg = error.response?.data?.message || 'Login yoki parol noto‘g‘ri';
+            alert(`Xato: ${errorMsg}`);
         }
     };
 

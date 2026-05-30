@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Search, Package, Plus, Layers, X, CheckCircle, PlusCircle, Printer, Trash2 } from 'lucide-react';
 import Barcode from 'react-barcode';
 
-const API = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://floor-do-kon.onrender.com';
+const API = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://magazin-backend.onrender.com';
 
 const Products = () => {
     const [products, setProducts] = useState([]);

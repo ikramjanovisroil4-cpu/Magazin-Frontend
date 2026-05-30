@@ -3,7 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Camera, UploadCloud, XCircle, Plus } from 'lucide-react';
 
-const API = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://floor-do-kon.onrender.com';
+// Backend linki muvaffaqiyatli o'rnatildi
+const API = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://magazin-backend.onrender.com';
 
 const AddProduct = () => {
     const navigate = useNavigate();
